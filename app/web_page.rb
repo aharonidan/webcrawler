@@ -3,12 +3,11 @@ require 'open-uri'
 
 class WebPage
 
-  attr_accessor :url, :domain, :static_assets, :links, :document, :title
+  attr_reader :url, :domain,:document, :links, :static_assets
 
   def initialize(url, domain)
     @url, @domain = url, domain
     @document = parse_document
-    @title = fetch_title
     @links = fetch_links
     @static_assets = fetch_static_assets
   end
@@ -16,10 +15,6 @@ class WebPage
   def parse_document
     source = open(url).read
     Nokogiri::HTML.parse source
-  end
-
-  def fetch_title
-    document.css('title').text
   end
 
   def fetch_links
@@ -44,8 +39,7 @@ class WebPage
     elsif link.match(/^\/\/.*/)
         'http:' + link
     elsif link.match(/^\/.*/)
-      link.slice!(0) # remove the first '/'
-      domain + link
+      domain.chomp('/') + link
     else
       link
     end
