@@ -1,5 +1,4 @@
 require './app/web_crawler'
-require 'pry'
 
 url = ARGV[0] || 'https://gocardless.com/'
 output_file = ARGV[1] || 'sitemap.xml'
@@ -11,5 +10,7 @@ crawler = WebCrawler.new(url)
 crawler.crawl
 
 File.open(output_file, 'w') do |file|
-  file.print crawler.xml.to_xml
+  file.print crawler.sitemap.to_xml
 end
+
+puts "Done! your output is waiting in #{output_file}"
