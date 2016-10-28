@@ -3,13 +3,13 @@ require 'pry'
 
 class WebCrawler
 
-  attr_reader :domain, :to_visit, :visited, :pages, :sitemap
+  attr_reader :domain, :to_visit, :visited, :sitemap
 
-  def initialize(domain, page_limit)
-    @domain = domain
-    @to_visit, @visited = [], {}
+  def initialize(domain)
+    @domain = domain.chomp('/')
+    @to_visit = [domain]
+    @visited = {}
     @sitemap = initialize_xml
-    visit_page(domain)
   end
 
   def visit_page(url)
